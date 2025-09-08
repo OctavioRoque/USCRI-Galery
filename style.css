@@ -9,30 +9,64 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-self: center;
+    justify-content: center;
     background: #283048;
     padding: 20px;
 }
 
 .container-carousel{
+    position: relative;
     width: 500px;
     height: 300px;
     background-color: #e0e0e0;
     box-shadow: 0 8px 32px #283048;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .carrusel {
-    width: 100%;
+    width: 200%;
     height: 100%;
     display: flex;
-    border: solid thin red;
-
 }
 
 .slider {
     width: calc(100% / 2);
+    height: 100%;
 }
 
 .slider img {
     width: 500px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.btn-left,
+.btn-right{
+    display: flex;
+    position: absolute;
+    top: 50%;
+    font-size: 1.5rem;
+    background-color: transparent;
+    border-radius: 50%;
+    padding: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #04020281;
+    transform: translate(0,-50%);
+    transition: .5s ease;
+    user-select: none;
+}
+
+.btn-left:hover,
+.btn-right:hover{
+    background-color: #33333317;
+}
+
+.btn-left{
+    left: 10px;
+}
+.btn-right{
+    right: 10px;
 }
