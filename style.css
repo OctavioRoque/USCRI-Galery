@@ -1,0 +1,38 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    background: #283048;
+    padding: 20px;
+}
+
+.container-carousel{
+    width: 500px;
+    height: 300px;
+    background-color: #e0e0e0;
+    box-shadow: 0 8px 32px #283048;
+}
+
+.carrusel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border: solid thin red;
+
+}
+
+.slider {
+    width: calc(100% / 2);
+}
+
+.slider img {
+    width: 500px;
+}
