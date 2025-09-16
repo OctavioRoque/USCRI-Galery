@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,107 +10,100 @@
 <body>
 
 <div class="wrapper">
+    <!-- Sección Principal -->
     <div class="container-principal">
         <div class="left">
             <div class="logos">
-                <img src="imagenes/SMI 25_Logotipos.png" alt="">
+                <img src="imagenes/SMI 25_Logotipos.png" alt="Logotipos">
             </div>
 
             <div class="texto">
-            <h1>GALERIA DIGITAL</h1>
+                <h1>GALERIA DIGITAL</h1>
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque quas ad impedit earum sed, nemo dignissimos pariatur totam modi aliquid, fugit, dolorum nostrum aliquam dolorem. Aperiam hic atque delectus modi.</p>
             </div>
         </div>
         <div class="right">
-            <img src="imagenes/img_FirstScreen.png" alt="">
+            <img src="imagenes/Semana movilidad 2025_elementos imagen _Mesa de trabajo 1.png" alt="Imagen principal">
         </div>
     </div>
 
+    <!-- Primera Sección Adicional -->
+    <div class="additional-section section-1">
+        <div class="section-content">
+            <h2>Exposición Colectiva</h2>
+            <p>Una muestra diversa de artistas latinoamericanos que exploran la identidad cultural a través de diferentes estilos y técnicas pictóricas.</p>
+            <div class="section-image">
+                <img src="https://via.placeholder.com/600x300" alt="Exposición colectiva">
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrusel -->
     <div class="container-carousel">
         <div class="carrusel" id="slider">
-            <section class="slider-section">
-                <img src="imagenes/1.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/2.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/3.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/4.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/5.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/6.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/7.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/8.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/9.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/11.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/12.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/13.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/14.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/15.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/16.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/17.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/18.png" alt="">
-                <h2 class="autor">Dani perrito</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/19.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
-            <section class="slider-section">
-                <img src="imagenes/20.png" alt="">
-                <h2 class="autor">El de ciencias</h2>
-            </section>
+            <!-- Las imágenes se cargarán dinámicamente desde JSON -->
         </div>
-        <div class="btn-left"><i class='bx  bx-chevron-left'  ></i></div>
-        <div class="btn-right"><i class='bx  bx-chevron-right'  ></i> </div>
+        <div class="btn-left"><i class='bx bx-chevron-left'></i></div>
+        <div class="btn-right"><i class='bx bx-chevron-right'></i></div>
+    </div>
+
+    <!-- Segunda Sección Adicional -->
+    <div class="additional-section section-2">
+        <div class="section-content">
+            <h2>Sobre la Exhibición</h2>
+            <p>Esta colección presenta obras de artistas de diversas nacionalidades, cada una expresando aspectos únicos de su identidad cultural y personal a través del arte naïf y figurativo.</p>
+            <div class="section-image">
+                <img src="https://via.placeholder.com/600x300" alt="Sobre la exhibición">
+            </div>
+        </div>
     </div>
 </div>
 
+<!-- Modal para imagen en tamaño completo -->
+<div class="image-modal" id="imageModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <button class="modal-nav prev"><i class='bx bx-chevron-left'></i></button>
+        <button class="modal-nav next"><i class='bx bx-chevron-right'></i></button>
+        <div class="modal-image-container">
+            <img src="" alt="Imagen en tamaño completo" id="modalImage">
+        </div>
+        <div class="image-info">
+            <h2 id="modalTitle"></h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Artista</h3>
+                    <p id="modalArtista"></p>
+                </div>
+                <div class="info-item">
+                    <h3>Nacionalidad</h3>
+                    <p id="modalNacionalidad"></p>
+                </div>
+                <div class="info-item">
+                    <h3>Formato</h3>
+                    <p id="modalFormato"></p>
+                </div>
+                <div class="info-item">
+                    <h3>Tipo de Obra</h3>
+                    <p id="modalTipoObra"></p>
+                </div>
+                <div class="info-item">
+                    <h3>Fecha</h3>
+                    <p id="modalFecha"></p>
+                </div>
+                <div class="info-item">
+                    <h3>Estilo</h3>
+                    <p id="modalEstilo"></p>
+                </div>
+                <div class="info-item full-width">
+                    <h3>Significado</h3>
+                    <p id="modalSignificado"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

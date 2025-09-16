@@ -1,0 +1,211 @@
+[
+  {
+    "id": 1,
+    "artista": "Fernando R",
+    "nacionalidad": "Hondureña",
+    "titulo": "Cerro Juana Lainez",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Recordar la ciudad donde nací, Tegucigalpa, Honduras"
+  },
+  {
+    "id": 2,
+    "artista": "Krisher",
+    "nacionalidad": "Guatemalteca",
+    "titulo": "La vida es un Cartucho",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "El cartucho es una flor muy conocida y tradicional de Guatemala. Se cultiva en las áreas frías, pues, al igual que el ser humano, depende del vital líquido que es el agua; sin la suficiente, muere. En agua puede mantenerse viva por más de ocho días después de ser cortada de la planta"
+  },
+  {
+    "id": 3,
+    "artista": "Cirilo",
+    "nacionalidad": "Mexicana",
+    "titulo": "Azul, rojo amarillo, verde",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Abstracto geométrico",
+    "significado": "Casa en Monterrey"
+  },
+  {
+    "id": 4,
+    "artista": "Anónimo",
+    "nacionalidad": "Hondureña",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Sin descripción"
+  },
+  {
+    "id": 5,
+    "artista": "Hamilton",
+    "nacionalidad": "Colombiana",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Sin descripción"
+  },
+  {
+    "id": 6,
+    "artista": "Darwin C",
+    "nacionalidad": "Colombiana",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Las montañas de mi bello Medellín"
+  },
+  {
+    "id": 7,
+    "artista": "Ana G",
+    "nacionalidad": "Hondureña",
+    "titulo": "La naturaleza",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Los paisajes de mi país"
+  },
+  {
+    "id": 8,
+    "artista": "Ana Cristina",
+    "nacionalidad": "Hondureña",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Sin descripción"
+  },
+  {
+    "id": 9,
+    "artista": "Cristian H",
+    "nacionalidad": "Colombiana",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "El mejor país del mundo, Colombia"
+  },
+  {
+    "id": 11,
+    "artista": "Jeferson G",
+    "nacionalidad": "Hondureña",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Expresionista simbólico",
+    "significado": "Ganesha diosa hindú representa la paz interior y espiritual"
+  },
+  {
+    "id": 12,
+    "artista": "Anónimo",
+    "nacionalidad": "Hondureña",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Sin descripción"
+  },
+  {
+    "id": 13,
+    "artista": "José A",
+    "nacionalidad": "Mexicana",
+    "titulo": "Representación de todo el mundo",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Simbólico",
+    "significado": "Gente de todos los lugares"
+  },
+  {
+    "id": 14,
+    "artista": "Juan Carlos",
+    "nacionalidad": "Venezolana",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Sin descripción"
+  },
+  {
+    "id": 15,
+    "artista": "Miguel Piña",
+    "nacionalidad": "Colombiana",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Sin descripción"
+  },
+  {
+    "id": 16,
+    "artista": "Eythan Reyes A",
+    "nacionalidad": "Costarricense",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "“Un emigrante por el mundo buscando tranquilidad, un día tienes todo; al día siguiente abordas un avión y pasas a ser una estadística más…”"
+  },
+  {
+    "id": 17,
+    "artista": "Zahra",
+    "nacionalidad": "Iraní",
+    "titulo": "Architecture of Iran",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Arte arquitectónico conceptual",
+    "significado": "I’m a painter and an urban planner, so for me, my identity means our beautiful culture and architecture, especially the ancient one"
+  },
+  {
+    "id": 18,
+    "artista": "Fidel P",
+    "nacionalidad": "Salvadoreña",
+    "titulo": "3 Fronteras",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Sin descripción"
+  },
+  {
+    "id": 19,
+    "artista": "Dr. Joseph",
+    "nacionalidad": "Iraní",
+    "titulo": "Flagtooth",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Arte conceptual",
+    "significado": "My job is my identity"
+  },
+  {
+    "id": 20,
+    "artista": "Anónimo",
+    "nacionalidad": "Nicaragüense",
+    "titulo": "Sin título",
+    "formato_medidas": "Vertical, 29 cm x 42 cm",
+    "tipo_obra": "Pintura",
+    "fecha_elaboracion": "7 - septiembre - 2025",
+    "estilo": "Figurativo naïf",
+    "significado": "Sin descripción"
+  }
+]
