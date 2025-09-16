@@ -359,13 +359,6 @@ function moveToLeft() {
     resetAutoSlide();
 }
 
-// ✅ Auto slide
-function startAutoSlide() {
-    autoSlideInterval = setInterval(() => {
-        moveToRight();
-    }, 4000);
-}
-
 function resetAutoSlide() {
     clearInterval(autoSlideInterval);
     startAutoSlide();
