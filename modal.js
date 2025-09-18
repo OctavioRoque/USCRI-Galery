@@ -1,6 +1,46 @@
 // modal.js
 let currentModalIndex = 0;
 
+// Función para manejar los parámetros de la URL
+function handleModalURLs() {
+    // Obtener el parámetro 'modal' de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const modalIndex = urlParams.get('modal');
+    
+    // Si hay un parámetro 'modal' en la URL, abrir el modal correspondiente
+    if (modalIndex !== null && !isNaN(modalIndex)) {
+        const index = parseInt(modalIndex);
+        const obras = window.obrasData || [];
+        if (index >= 0 && index < obras.length) {
+            // Pequeño retraso para asegurar que el DOM esté listo
+            setTimeout(() => openModal(index), 100);
+        }
+    }
+    
+    // Actualizar la URL cuando se abre un modal
+    function updateURL(modalIndex) {
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set('modal', modalIndex);
+        window.history.pushState({}, '', newUrl);
+    }
+    
+    // Limpiar la URL cuando se cierra el modal
+    function clearURL() {
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.delete('modal');
+        window.history.pushState({}, '', newUrl);
+    }
+    
+    // Devolver las funciones que necesitarás usar
+    return {
+        updateURL,
+        clearURL
+    };
+}
+
+// Inicializar el manejo de URLs para modales
+const modalURLHandler = handleModalURLs();
+
 function openModal(index) {
     const modal = document.getElementById('imageModal');
     const obras = window.obrasData || [];
@@ -27,6 +67,9 @@ function openModal(index) {
         if (modalImageContainer) modalImageContainer.classList.remove('loading');
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
+        
+        // Actualizar la URL con el índice del modal
+        modalURLHandler.updateURL(index);
     };
 
     img.onerror = function() {
@@ -35,6 +78,9 @@ function openModal(index) {
         if (modalImageContainer) modalImageContainer.classList.remove('loading');
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
+        
+        // Actualizar la URL con el índice del modal
+        modalURLHandler.updateURL(index);
     };
 }
 
@@ -43,6 +89,9 @@ function closeModal() {
     if (!modal) return;
     modal.classList.remove('show');
     document.body.style.overflow = '';
+    
+    // Limpiar la URL cuando se cierra el modal
+    modalURLHandler.clearURL();
 }
 
 function prevModal() {
@@ -51,6 +100,7 @@ function prevModal() {
     if (newIndex < 0) newIndex = obras.length - 1;
     openModal(newIndex);
 }
+
 function nextModal() {
     const obras = window.obrasData || [];
     let newIndex = currentModalIndex + 1;
@@ -88,4 +138,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'ArrowLeft') prevModal();
         if (e.key === 'ArrowRight') nextModal();
     });
+    
+    // Manejar el botón de retroceso del navegador
+    window.addEventListener('popstate', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const modalIndex = urlParams.get('modal');
+        
+        if (modalIndex === null) {
+            // Si no hay parámetro 'modal', cerrar el modal
+            closeModal();
+        } else {
+            // Si hay un parámetro 'modal', abrirlo
+            const index = parseInt(modalIndex);
+            const obras = window.obrasData || [];
+            if (index >= 0 && index < obras.length) {
+                openModal(index);
+            }
+        }
+    });
+});
+
+// Llamar esta función cuando se cargue la página
+window.addEventListener('load', function() {
+    handleModalURLs();
 });
