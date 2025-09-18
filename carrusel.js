@@ -1,19 +1,38 @@
+// carousel.js
+const CLONE_COUNT = 4;
 const btnLeft = document.querySelector(".btn-left"),
       btnRight = document.querySelector(".btn-right"),
       slider = document.querySelector("#slider");
 
 let counter = 0;
 let isTransitioning = false;
-let autoSlideInterval;
-let sliderSections = [];
-let allSlides = [];
+let sliderSections = []; // originales
+let allSlides = [];      // originales + clones
 let obrasData = [];
-let currentModalIndex = 0;
 
-// ✅ Cargar datos desde JSON y crear slides
+// Exponer obrasData globalmente para modal.js
+function exposeObrasGlobal() {
+    window.obrasData = obrasData;
+}
+
+// ✅ Asignar evento click para abrir modal a cualquier slide (clon u original)
+function attachClickEvents(slides) {
+    slides.forEach(slide => {
+        slide.onclick = () => {
+            const id = Number(slide.dataset.id);
+            const index = obrasData.findIndex(o => o.id === id);
+            if (index !== -1) {
+                // usar la función global openModal (definida en modal.js)
+                if (typeof window.openModal === 'function') window.openModal(index);
+            }
+        };
+    });
+}
+
+// ✅ Cargar datos (usa tus objetos)
 function loadObrasData() {
-    // Usar los datos proporcionados
     obrasData = [
+      /* pega aquí exactamente tu array de objetos (id, artista, imagen, etc.) */
       {
         "id": 1,
         "artista": "Fernando R",
@@ -241,33 +260,28 @@ function loadObrasData() {
         "estilo": "Figurativo naïf",
         "significado": "Sin descripción",
         "imagen": "imagenes/20.png"
-      }
+      }    
     ];
-    
-    // Limpiar el slider
+
+    // Exponer globalmente (para modal.js)
+    exposeObrasGlobal();
+
+    // Limpiar y crear slides
     slider.innerHTML = '';
-    
-    // Crear slides para cada obra
     obrasData.forEach(obra => {
         const slide = document.createElement('div');
         slide.className = 'slider-section';
         slide.dataset.id = obra.id;
-        
         slide.innerHTML = `
             <img src="${obra.imagen}" alt="${obra.titulo}">
             <h2>${obra.titulo}</h2>
         `;
-        
-        // Añadir evento de clic para abrir el modal
-        slide.addEventListener('click', () => {
-            openModal(obra.id - 1); // Restamos 1 porque el array empieza en 0
-        });
-        
         slider.appendChild(slide);
     });
-    
-    // Actualizar referencias
-    sliderSections = document.querySelectorAll(".slider-section");
+
+    // Guardar referencia a los originales (antes de clonar)
+    sliderSections = Array.from(slider.querySelectorAll('.slider-section:not(.cloned)'));
+    attachClickEvents(sliderSections);
     initCarousel();
 }
 
@@ -275,49 +289,56 @@ function loadObrasData() {
 function initCarousel() {
     cloneSlides();
     updateSlidesList();
-    counter = sliderSections.length; // Empezar después de los clones izquierdos
+    counter = CLONE_COUNT; // empezar en el primer original (después de los clones left)
     moveSlider(false);
-    startAutoSlide();
 }
 
-// ✅ Clonar slides para efecto infinito
+// ✅ Clonar slides (left and right)
 function cloneSlides() {
-    // Limpiar clones existentes
-    const existingClones = slider.querySelectorAll('.cloned');
-    existingClones.forEach(clone => clone.remove());
-    
-    // Clonar primeros slides al final
-    for (let i = 0; i < 4; i++) {
-        if (sliderSections[i]) {
-            let firstClone = sliderSections[i].cloneNode(true);
-            firstClone.classList.add('cloned');
-            slider.appendChild(firstClone);
-        }
+    // eliminar clones previos
+    slider.querySelectorAll('.cloned').forEach(c => c.remove());
+    const originals = Array.from(slider.querySelectorAll('.slider-section:not(.cloned)'));
+
+    // clonar últimos (para insertar al inicio) - loop descendente para mantener orden
+    for (let i = originals.length - 1; i >= Math.max(0, originals.length - CLONE_COUNT); i--) {
+        const clone = originals[i].cloneNode(true);
+        clone.classList.add('cloned');
+        slider.insertBefore(clone, slider.firstChild);
     }
-    
-    // Clonar últimos slides al inicio
-    for (let i = sliderSections.length - 1; i >= sliderSections.length - 4; i--) {
-        let lastClone = sliderSections[i].cloneNode(true);
-        lastClone.classList.add('cloned');
-        slider.insertBefore(lastClone, slider.firstChild);
+
+    // clonar primeros (para añadir al final)
+    for (let i = 0; i < Math.min(CLONE_COUNT, originals.length); i++) {
+        const clone = originals[i].cloneNode(true);
+        clone.classList.add('cloned');
+        slider.appendChild(clone);
     }
+
+    // reasignar click a clones también
+    attachClickEvents(Array.from(slider.querySelectorAll('.cloned')));
 }
 
-// ✅ Actualizar lista de slides
+// ✅ Actualizar lista completa de slides
 function updateSlidesList() {
-    allSlides = document.querySelectorAll(".slider-section");
+    allSlides = Array.from(slider.querySelectorAll('.slider-section'));
+}
+
+// ✅ Calcular ancho efectivo de un slide (incluye márgenes)
+function getSlideWidth(slideEl) {
+    const style = getComputedStyle(slideEl);
+    const width = slideEl.getBoundingClientRect().width;
+    const ml = parseFloat(style.marginLeft) || 0;
+    const mr = parseFloat(style.marginRight) || 0;
+    return width + ml + mr;
 }
 
 // ✅ Mover slider
 function moveSlider(withTransition = true) {
-    if (isTransitioning) return;
-    
-    if (allSlides.length === 0) return;
-    
-    const slideWidth = allSlides[0].offsetWidth + parseInt(getComputedStyle(allSlides[0]).marginRight) * 2;
+    if (isTransitioning || allSlides.length === 0) return;
+
+    const slideWidth = getSlideWidth(allSlides[0]);
     slider.style.transition = withTransition ? "transform 0.6s ease" : "none";
     slider.style.transform = `translateX(-${counter * slideWidth}px)`;
-    
+
     if (withTransition) {
         isTransitioning = true;
         setTimeout(() => {
@@ -327,206 +348,71 @@ function moveSlider(withTransition = true) {
     }
 }
 
-// ✅ Verificar posición del slide
+// ✅ Ajuste al entrar en zona de clones (infinito bothways)
 function checkSlidePosition() {
-    // Si está en los clones del final, saltar al inicio real
-    if (counter >= allSlides.length - 4) {
-        counter = sliderSections.length;
+    const total = allSlides.length;
+    const originalsCount = sliderSections.length;
+
+    // Si entramos en los clones de la derecha (ej. indices >= total - CLONE_COUNT)
+    if (counter >= total - CLONE_COUNT) {
+        // nos movemos a la copia real correspondiente en el bloque de originales
+        counter = counter - originalsCount;
         moveSlider(false);
     }
-    // Si está en los clones del inicio, saltar al final real
-    else if (counter <= 0) {
-        counter = sliderSections.length;
+    // Si entramos en los clones de la izquierda (counter < CLONE_COUNT)
+    else if (counter < CLONE_COUNT) {
+        counter = counter + originalsCount;
         moveSlider(false);
     }
 }
 
-// ✅ Movimiento a la derecha (siguiente slide)
+// ✅ Navegación pública
 function moveToRight() {
     if (isTransitioning) return;
     counter++;
     moveSlider();
-    resetAutoSlide();
 }
-
-// ✅ Movimiento a la izquierda (slide anterior)
 function moveToLeft() {
     if (isTransitioning) return;
     counter--;
     moveSlider();
-    resetAutoSlide();
 }
 
-// ✅ Abrir modal con la información de la obra
-function openModal(index) {
-    const modal = document.getElementById('imageModal');
-    const obra = obrasData[index];
-    
-    if (!obra) return;
-    
-    // Guardar el índice actual para navegación
-    currentModalIndex = index;
-    
-    // Añadir clase de carga
-    const modalImageContainer = document.querySelector('.modal-image-container');
-    modalImageContainer.classList.add('loading');
-    
-    // Precargar imagen
-    const img = new Image();
-    img.src = obra.imagen;
-    img.onload = function() {
-        // Actualizar contenido del modal
-        document.getElementById('modalImage').src = obra.imagen;
-        document.getElementById('modalTitle').textContent = obra.titulo;
-        document.getElementById('modalArtista').textContent = obra.artista;
-        document.getElementById('modalNacionalidad').textContent = obra.nacionalidad;
-        document.getElementById('modalFormato').textContent = obra.formato_medidas;
-        document.getElementById('modalTipoObra').textContent = obra.tipo_obra;
-        document.getElementById('modalFecha').textContent = obra.fecha_elaboracion;
-        document.getElementById('modalEstilo').textContent = obra.estilo;
-        document.getElementById('modalSignificado').textContent = obra.significado;
-        
-        // Quitar clase de carga
-        modalImageContainer.classList.remove('loading');
-        
-        // Mostrar modal
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
-    };
-    
-    img.onerror = function() {
-        // Si hay error al cargar la imagen, mostrar igual el modal
-        document.getElementById('modalImage').src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkeT0iLjM1ZW0iIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTk5Ij5JbWFnZW4gbm8gZW5jb250cmFkYTwvdGV4dD48L3N2Zz4=';
-        document.getElementById('modalTitle').textContent = obra.titulo;
-        document.getElementById('modalArtista').textContent = obra.artista;
-        document.getElementById('modalNacionalidad').textContent = obra.nacionalidad;
-        document.getElementById('modalFormato').textContent = obra.formato_medidas;
-        document.getElementById('modalTipoObra').textContent = obra.tipo_obra;
-        document.getElementById('modalFecha').textContent = obra.fecha_elaboracion;
-        document.getElementById('modalEstilo').textContent = obra.estilo;
-        document.getElementById('modalSignificado').textContent = obra.significado;
-        
-        // Quitar clase de carga
-        modalImageContainer.classList.remove('loading');
-        
-        // Mostrar modal
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    };
-}
-
-// ✅ Cerrar modal
-function closeModal() {
-    const modal = document.getElementById('imageModal');
-    modal.classList.remove('show');
-    document.body.style.overflow = ''; // Restaurar scroll
-}
-
-// ✅ Navegar al anterior en el modal
-function prevModal() {
-    let newIndex = currentModalIndex - 1;
-    if (newIndex < 0) newIndex = obrasData.length - 1;
-    openModal(newIndex);
-}
-
-// ✅ Navegar al siguiente en el modal
-function nextModal() {
-    let newIndex = currentModalIndex + 1;
-    if (newIndex >= obrasData.length) newIndex = 0;
-    openModal(newIndex);
-}
-
-// ✅ Event Listeners para el modal
-document.querySelector('.close-modal').addEventListener('click', closeModal);
-document.querySelector('.modal-nav.prev').addEventListener('click', prevModal);
-document.querySelector('.modal-nav.next').addEventListener('click', nextModal);
-
-// ✅ Cerrar modal al hacer clic fuera del contenido
-document.getElementById('imageModal').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('imageModal')) {
-        closeModal();
-    }
-});
-
-// ✅ Navegación con teclado
-document.addEventListener('keydown', (e) => {
-    const modal = document.getElementById('imageModal');
-    if (modal.classList.contains('show')) {
-        if (e.key === 'Escape') closeModal();
-        if (e.key === 'ArrowLeft') prevModal();
-        if (e.key === 'ArrowRight') nextModal();
-    }
-});
-
-// ✅ Event Listeners para el carrusel
+// Listeners botones
 btnRight.addEventListener("click", moveToRight);
 btnLeft.addEventListener("click", moveToLeft);
 
-// 📱 Swipe en móvil
-let startX = 0, endX = 0;
-let isDragging = false;
-
-slider.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    clearInterval(autoSlideInterval);
-});
-
-slider.addEventListener("touchmove", (e) => {
-    if (!isDragging) return;
-    endX = e.touches[0].clientX;
-});
-
+// Touch (swipe)
+let startX = 0, endX = 0, isDragging = false;
+slider.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; isDragging = true; });
+slider.addEventListener("touchmove", (e) => { if (isDragging) endX = e.touches[0].clientX; });
 slider.addEventListener("touchend", () => {
     if (!isDragging) return;
-    
-    let diff = startX - endX;
-    if (Math.abs(diff) > 50) {
-        if (diff > 0) moveToRight();
-        else moveToLeft();
-    }
-    
-    startX = 0;
-    endX = 0;
-    isDragging = false;
-    resetAutoSlide();
+    const diff = startX - endX;
+    if (Math.abs(diff) > 50) diff > 0 ? moveToRight() : moveToLeft();
+    startX = 0; endX = 0; isDragging = false;
 });
 
-// 🖱️ Evento de rueda del ratón
+// Rueda del mouse
 slider.addEventListener('wheel', (e) => {
     e.preventDefault();
-    if (e.deltaY > 0) {
-        moveToRight();
-    } else {
-        moveToLeft();
-    }
-});
+    e.deltaY > 0 ? moveToRight() : moveToLeft();
+}, { passive: false });
 
-// 📏 Redimensionamiento de ventana
+// Resize: intentar mantener la misma obra visible
+function getCurrentOriginalIndex() {
+    const originalsCount = sliderSections.length;
+    return ((counter - CLONE_COUNT) % originalsCount + originalsCount) % originalsCount;
+}
 window.addEventListener("resize", () => {
+    const currentOriginalIndex = getCurrentOriginalIndex();
+    // volver a clonar (recrea clones con el DOM actualizado)
     cloneSlides();
     updateSlidesList();
-    counter = sliderSections.length;
+    // colocar counter sobre el mismo original
+    counter = CLONE_COUNT + currentOriginalIndex;
     moveSlider(false);
 });
 
-// 🚀 Inicializar
-document.addEventListener('DOMContentLoaded', () => {
-    loadObrasData();
-});
-
-// Pausar auto slide cuando el mouse está sobre el carrusel
-slider.addEventListener('mouseenter', () => {
-    clearInterval(autoSlideInterval);
-});
-
-slider.addEventListener('mouseleave', () => {
-    resetAutoSlide();
-});
-
-// Prevenir comportamiento por defecto en touch devices
-slider.addEventListener('touchmove', (e) => {
-    if (isDragging) {
-        e.preventDefault();
-    }
-}, { passive: false });
+// Iniciar
+document.addEventListener('DOMContentLoaded', () => loadObrasData());
