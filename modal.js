@@ -1,91 +1,65 @@
-// modal.js
 let currentModalIndex = 0;
 
-function openModal(index) {
+// ✅ Mostrar el modal con los datos de la obra
+function showModal(obra) {
     const modal = document.getElementById('imageModal');
-    const obras = window.obrasData || [];
-    const obra = obras[index];
+    const modalImg = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+
+    modalImg.src = obra.imagen;
+    modalTitle.textContent = obra.titulo;
+    modalDescription.textContent = obra.descripcion;
+
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+// ✅ Abrir modal y actualizar la URL
+function openModal(index) {
+    const obra = obrasData[index];
     if (!obra) return;
 
     currentModalIndex = index;
-    const modalImageContainer = document.querySelector('.modal-image-container');
-    if (modalImageContainer) modalImageContainer.classList.add('loading');
 
-    const img = new Image();
-    img.src = obra.imagen;
-    img.onload = function() {
-        document.getElementById('modalImage').src = obra.imagen;
-        document.getElementById('modalTitle').textContent = obra.titulo || '';
-        document.getElementById('modalArtista').textContent = obra.artista || '';
-        document.getElementById('modalNacionalidad').textContent = obra.nacionalidad || '';
-        document.getElementById('modalFormato').textContent = obra.formato_medidas || '';
-        document.getElementById('modalTipoObra').textContent = obra.tipo_obra || '';
-        document.getElementById('modalFecha').textContent = obra.fecha_elaboracion || '';
-        document.getElementById('modalEstilo').textContent = obra.estilo || '';
-        document.getElementById('modalSignificado').textContent = obra.significado || '';
+    // Agregar parámetro a la URL sin recargar
+    const newUrl = `${window.location.origin}${window.location.pathname}?obra=${obra.id}`;
+    history.pushState({ modalOpen: true }, '', newUrl);
 
-        if (modalImageContainer) modalImageContainer.classList.remove('loading');
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    };
-
-    img.onerror = function() {
-        // fallback si no carga imagen
-        document.getElementById('modalImage').src = '';
-        if (modalImageContainer) modalImageContainer.classList.remove('loading');
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    };
+    showModal(obra);
 }
 
+// ✅ Cerrar modal y limpiar la URL
 function closeModal() {
     const modal = document.getElementById('imageModal');
-    if (!modal) return;
     modal.classList.remove('show');
     document.body.style.overflow = '';
+
+    // Quitar el parámetro "obra" de la URL
+    const cleanUrl = window.location.origin + window.location.pathname;
+    history.pushState({}, '', cleanUrl);
 }
 
-function prevModal() {
-    const obras = window.obrasData || [];
-    let newIndex = currentModalIndex - 1;
-    if (newIndex < 0) newIndex = obras.length - 1;
-    openModal(newIndex);
-}
-function nextModal() {
-    const obras = window.obrasData || [];
-    let newIndex = currentModalIndex + 1;
-    if (newIndex >= obras.length) newIndex = 0;
-    openModal(newIndex);
-}
-
-// Hacer funciones globales (para que carousel.js pueda llamarlas)
-window.openModal = openModal;
-window.closeModal = closeModal;
-window.prevModal = prevModal;
-window.nextModal = nextModal;
-
-// Listeners del modal (asegúrate de que existen esos elementos en tu HTML)
+// ✅ Revisar la URL al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    const closeBtn = document.querySelector('.close-modal');
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-
-    const prevBtn = document.querySelector('.modal-nav.prev');
-    const nextBtn = document.querySelector('.modal-nav.next');
-    if (prevBtn) prevBtn.addEventListener('click', prevModal);
-    if (nextBtn) nextBtn.addEventListener('click', nextModal);
-
-    const modal = document.getElementById('imageModal');
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
+    const params = new URLSearchParams(window.location.search);
+    const obraId = params.get('obra');
+    if (obraId) {
+        const index = obrasData.findIndex(o => o.id == obraId);
+        if (index !== -1) openModal(index);
     }
-
-    document.addEventListener('keydown', (e) => {
-        const m = document.getElementById('imageModal');
-        if (!m || !m.classList.contains('show')) return;
-        if (e.key === 'Escape') closeModal();
-        if (e.key === 'ArrowLeft') prevModal();
-        if (e.key === 'ArrowRight') nextModal();
-    });
 });
+
+// ✅ Botones de navegación del modal
+document.getElementById('prevBtn').addEventListener('click', () => {
+    currentModalIndex = (currentModalIndex - 1 + obrasData.length) % obrasData.length;
+    openModal(currentModalIndex);
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+    currentModalIndex = (currentModalIndex + 1) % obrasData.length;
+    openModal(currentModalIndex);
+});
+
+// ✅ Cerrar modal al hacer clic en la X
+document.querySelector('.close').addEventListener('click', closeModal);
