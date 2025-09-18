@@ -123,7 +123,7 @@ function loadObrasData() {
         "imagen": "imagenes/9.png"
       },
       {
-        "id": 11,
+        "id": 10,
         "artista": "Jeferson G",
         "nacionalidad": "Hondureña",
         "titulo": "Sin título",
@@ -135,7 +135,7 @@ function loadObrasData() {
         "imagen": "imagenes/11.png"
       },
       {
-        "id": 12,
+        "id": 11,
         "artista": "Anónimo",
         "nacionalidad": "Hondureña",
         "titulo": "Sin título",
@@ -147,7 +147,7 @@ function loadObrasData() {
         "imagen": "imagenes/12.png"
       },
       {
-        "id": 13,
+        "id": 12,
         "artista": "José A",
         "nacionalidad": "Mexicana",
         "titulo": "Representación de todo el mundo",
@@ -159,7 +159,7 @@ function loadObrasData() {
         "imagen": "imagenes/13.png"
       },
       {
-        "id": 14,
+        "id": 13,
         "artista": "Juan Carlos",
         "nacionalidad": "Venezolana",
         "titulo": "Sin título",
@@ -171,7 +171,7 @@ function loadObrasData() {
         "imagen": "imagenes/14.png"
       },
       {
-        "id": 15,
+        "id": 14,
         "artista": "Miguel Piña",
         "nacionalidad": "Colombiana",
         "titulo": "Sin título",
@@ -183,7 +183,7 @@ function loadObrasData() {
         "imagen": "imagenes/15.png"
       },
       {
-        "id": 16,
+        "id": 15,
         "artista": "Eythan Reyes A",
         "nacionalidad": "Costarricense",
         "titulo": "Sin título",
@@ -195,7 +195,7 @@ function loadObrasData() {
         "imagen": "imagenes/16.png"
       },
       {
-        "id": 17,
+        "id": 16,
         "artista": "Zahra",
         "nacionalidad": "Iraní",
         "titulo": "Architecture of Iran",
@@ -207,7 +207,7 @@ function loadObrasData() {
         "imagen": "imagenes/17.png"
       },
       {
-        "id": 18,
+        "id": 17,
         "artista": "Fidel P",
         "nacionalidad": "Salvadoreña",
         "titulo": "3 Fronteras",
@@ -219,7 +219,7 @@ function loadObrasData() {
         "imagen": "imagenes/18.png"
       },
       {
-        "id": 19,
+        "id": 18,
         "artista": "Dr. Joseph",
         "nacionalidad": "Iraní",
         "titulo": "Flagtooth",
@@ -231,7 +231,7 @@ function loadObrasData() {
         "imagen": "imagenes/19.png"
       },
       {
-        "id": 20,
+        "id": 19,
         "artista": "Anónimo",
         "nacionalidad": "Nicaragüense",
         "titulo": "Sin título",
@@ -297,11 +297,9 @@ function cloneSlides() {
     
     // Clonar últimos slides al inicio
     for (let i = sliderSections.length - 1; i >= sliderSections.length - 4; i--) {
-        if (sliderSections[i]) {
-            let lastClone = sliderSections[i].cloneNode(true);
-            lastClone.classList.add('cloned');
-            slider.insertBefore(lastClone, slider.firstChild);
-        }
+        let lastClone = sliderSections[i].cloneNode(true);
+        lastClone.classList.add('cloned');
+        slider.insertBefore(lastClone, slider.firstChild);
     }
 }
 
@@ -357,11 +355,6 @@ function moveToLeft() {
     counter--;
     moveSlider();
     resetAutoSlide();
-}
-
-function resetAutoSlide() {
-    clearInterval(autoSlideInterval);
-    startAutoSlide();
 }
 
 // ✅ Abrir modal con la información de la obra
