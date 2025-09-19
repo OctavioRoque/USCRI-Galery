@@ -794,3 +794,77 @@ body {
 #commentsContainer::-webkit-scrollbar-track {
     background: #e9ecef;
 }
+
+/* === Carrusel de comentarios mejorado === */
+.comments-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+#commentsContainer {
+    display: flex;
+    transition: transform 0.5s ease;
+    will-change: transform;
+    gap: 20px;
+}
+
+.comment-slide {
+    flex: 0 0 300px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+/* Flechas de navegación comentarios */
+.btn-left-comments,
+.btn-right-comments {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    font-size: 2rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #0071bb;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    user-select: none;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border: none;
+}
+
+.btn-left-comments:hover,
+.btn-right-comments:hover {
+    background-color: #0071bb;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.btn-left-comments {
+    left: 15px;
+}
+.btn-right-comments {
+    right: 15px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .comment-slide {
+        flex: 0 0 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .comment-slide {
+        flex: 0 0 100%;
+    }
+}

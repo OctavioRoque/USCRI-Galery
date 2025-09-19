@@ -48,19 +48,23 @@
         <div class="btn-right"><i class='bx bx-chevron-right'></i></div>
     </div>
 
-    <!-- Sección de Comentarios -->
-    <div class="additional-section section-comments">
-        <div class="section-content">
-            <h2>Comentarios</h2>
-            <div id="commentsContainer" class="comments-grid">
-                <!-- Los comentarios se cargarán aquí dinámicamente -->
-            </div>
-            <div class="add-comment">
-                <textarea id="commentInput" placeholder="Escribe tu comentario..."></textarea>
-                <button id="submitComment">Enviar</button>
-            </div>
-        </div>
+<!-- Sección de Comentarios -->
+<div class="additional-section section-comments">
+  <div class="section-content">
+    <h2>Comentarios</h2>
+    <div class="comments-carousel-wrapper">
+      <div id="commentsContainer" class="comments-grid">
+        <!-- Los comentarios se cargarán aquí dinámicamente -->
+      </div>
+      <div class="comment-btn-left"><i class='bx bx-chevron-left'></i></div>
+      <div class="comment-btn-right"><i class='bx bx-chevron-right'></i></div>
     </div>
+    <div class="add-comment">
+      <textarea id="commentInput" placeholder="Escribe tu comentario..."></textarea>
+      <button id="submitComment">Enviar</button>
+    </div>
+  </div>
+</div>
 
     <!-- Segunda Sección Adicional -->
     <div class="additional-section section-2">
@@ -162,10 +166,10 @@
     </div>
 </div>
 
-<script type="module" src="supabase.js"></script>
-
-<script src="modal.js"></script>
-
-<script src="carrusel.js"></script>
+<script type="module" src="scripts/supabase.js"></script>
+<script src="scripts/modal.js"></script>
+<script src="scripts/carrusel.js"></script>
+<script type="module" src="scripts/comentarios.js"></script>
+</body>
 </body>
 </html>
