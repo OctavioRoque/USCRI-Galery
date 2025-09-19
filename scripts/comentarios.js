@@ -1,100 +1,70 @@
-import { getComments, addComment } from "./supabase.js";
+// comentarios.js
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+// 🔑 Reemplaza con tu URL y key pública
+const SUPABASE_URL = "https://xxxxx.supabase.co";
+const SUPABASE_KEY = "tu_key_publica";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const commentsContainer = document.getElementById("commentsContainer");
+const commentForm = document.getElementById("commentForm");
 const commentInput = document.getElementById("commentInput");
-const submitComment = document.getElementById("submitComment");
 
-const btnLeft = document.querySelector(".comment-btn-left");
-const btnRight = document.querySelector(".comment-btn-right");
+// 🟢 Cargar comentarios desde Supabase
+async function loadComments() {
+  const { data, error } = await supabase
+    .from("comments")
+    .select("*")
+    .order("created_at", { ascending: true });
 
-let commentsData = [];
-let currentCommentIndex = 0;
-let autoSlideInterval = null;
+  if (error) {
+    console.error("Error cargando comentarios:", error);
+    return;
+  }
 
-// ---- RENDER ----
+  console.log("Comentarios cargados:", data); // debug
+  renderComments(data);
+}
+
+// 🟢 Renderizar comentarios en pantalla
 function renderComments(comments) {
   commentsContainer.innerHTML = "";
 
-  comments.forEach((c, index) => {
+  comments.forEach((c) => {
     const div = document.createElement("div");
-    div.classList.add("comment-slide");
-    div.dataset.index = index;
-    div.textContent = c.content;
+    div.classList.add("comment-card");
+    div.innerHTML = `
+      <p>${c.content}</p>
+      <small>${new Date(c.created_at).toLocaleString()}</small>
+    `;
     commentsContainer.appendChild(div);
   });
-
-  currentCommentIndex = 0;
-  updateCommentSlider();
 }
 
-function updateCommentSlider() {
-  const slides = document.querySelectorAll(".comment-slide");
-  if (!slides.length) return;
+// 🟢 Guardar nuevo comentario
+async function addComment(content) {
+  const { error } = await supabase.from("comments").insert([{ content }]);
 
-  const slideWidth = slides[0].getBoundingClientRect().width + 20; // margen
-  commentsContainer.style.transform = `translateX(-${
-    currentCommentIndex * slideWidth
-  }px)`;
+  if (error) {
+    console.error("Error insertando comentario:", error);
+    return;
+  }
+
+  commentInput.value = "";
+  loadComments(); // recargar lista después de insertar
 }
 
-function nextSlide() {
-  if (!commentsData.length) return;
-  currentCommentIndex++;
-  if (currentCommentIndex >= commentsData.length) currentCommentIndex = 0;
-  updateCommentSlider();
-}
-
-function prevSlide() {
-  if (!commentsData.length) return;
-  currentCommentIndex--;
-  if (currentCommentIndex < 0) currentCommentIndex = commentsData.length - 1;
-  updateCommentSlider();
-}
-
-function startCommentCarousel() {
-  if (autoSlideInterval) clearInterval(autoSlideInterval);
-  autoSlideInterval = setInterval(nextSlide, 4000);
-}
-
-// ---- LOAD ----
-async function loadComments() {
-  commentsData = await getComments();
-  renderComments(commentsData);
-  startCommentCarousel();
-}
-
-// ---- ADD ----
-async function handleAddComment() {
+// 🟢 Manejo del formulario
+commentForm.addEventListener("submit", (e) => {
+  e.preventDefault();
   const content = commentInput.value.trim();
-  if (!content) return;
-
-  const newComment = await addComment(content);
-  if (newComment) {
-    commentsData.push(newComment);
-    renderComments(commentsData);
-    startCommentCarousel();
-    commentInput.value = "";
-  }
-}
-
-// ---- EVENTOS ----
-submitComment.addEventListener("click", handleAddComment);
-commentInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    handleAddComment();
+  if (content) {
+    addComment(content);
   }
 });
 
-btnRight.addEventListener("click", () => {
-  nextSlide();
-  startCommentCarousel(); // reiniciar timer
+// 🟢 Ejecutar al cargar la página
+window.addEventListener("load", () => {
+  loadComments();
 });
-
-btnLeft.addEventListener("click", () => {
-  prevSlide();
-  startCommentCarousel(); // reiniciar timer
-});
-
-// ---- INIT ----
-document.addEventListener("DOMContentLoaded", loadComments);
