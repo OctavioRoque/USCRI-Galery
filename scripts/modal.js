@@ -54,6 +54,7 @@ function openModal(index) {
     const img = new Image();
     img.src = obra.imagen;
     img.onload = function() {
+        document.getElementById('data-work-id').src = obra.id;
         document.getElementById('modalImage').src = obra.imagen;
         document.getElementById('modalTitle').textContent = obra.titulo || '';
         document.getElementById('modalArtista').textContent = obra.artista || '';
