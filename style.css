@@ -683,6 +683,74 @@ body {
     }
 }
 
+.comments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.comment-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.comment-card p {
+    font-size: 0.95rem;
+    color: #495057;
+}
+
+.add-comment {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-comment textarea {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    resize: none;
+    font-size: 1rem;
+}
+
+.add-comment button {
+    background-color: #0071bb;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-comment button:hover {
+    background-color: #005f94;
+}
+
+
+.modal-like i.bx-heart {
+    color: #ff5e5e;
+    transition: transform 0.3s ease;
+}
+
+.modal-like i.bx-heart:hover {
+    transform: scale(1.2);
+}
+
+.modal-like span {
+    font-weight: bold;
+    color: #495057;
+}
+
+
+
+
+
 @media (max-width: 480px) {
     .footer-gallery {
         grid-template-columns: repeat(2, 1fr);
@@ -694,4 +762,35 @@ body {
         max-width: 80px;
         max-height: 60px;
     }
+}
+
+/* Carrusel de comentarios */
+#commentsContainer {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding-bottom: 10px;
+}
+
+.comment-card {
+    flex: 0 0 250px; /* ancho fijo de cada comentario */
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    scroll-snap-align: start;
+}
+
+#commentsContainer::-webkit-scrollbar {
+    height: 8px;
+}
+
+#commentsContainer::-webkit-scrollbar-thumb {
+    background: #0071bb;
+    border-radius: 4px;
+}
+
+#commentsContainer::-webkit-scrollbar-track {
+    background: #e9ecef;
 }
