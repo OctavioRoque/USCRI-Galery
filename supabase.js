@@ -1,10 +1,12 @@
-
+// supabase.js
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
+// Configuración Supabase
 const supabaseUrl = 'https://jieecdusneosgemfbffo.supabase.co'
-const supabaseKey = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppZWVjZHVzbmVvc2dlbWZiZmZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyNzM3OTcsImV4cCI6MjA3Mzg0OTc5N30.JTikW9hjkZT9-XC_umYAPpzKrU1lckUaJCNowXGOQig
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImppZWVjZHVzbmVvc2dlbWZiZmZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyNzM3OTcsImV4cCI6MjA3Mzg0OTc5N30.JTikW9hjkZT9-XC_umYAPpzKrU1lckUaJCNowXGOQig'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+// Contenedores y elementos
 const commentsContainer = document.getElementById('commentsContainer');
 const commentInput = document.getElementById('commentInput');
 const submitComment = document.getElementById('submitComment');
@@ -12,6 +14,7 @@ const submitComment = document.getElementById('submitComment');
 let commentsData = [];
 let currentCommentIndex = 0;
 
+// --- Test de conexión ---
 async function testSupabase() {
     const { data, error } = await supabase.from('comments').select('*').limit(1);
     if (error) {
@@ -23,7 +26,7 @@ async function testSupabase() {
 
 testSupabase();
 
-// ----------------- COMMENTS -----------------
+// --- COMMENTS ---
 async function loadComments() {
     const { data, error } = await supabase
         .from('comments')
@@ -63,7 +66,7 @@ function renderComments() {
 function updateCommentSlider() {
     const slides = document.querySelectorAll('.comment-slide');
     if (!slides.length) return;
-    const slideWidth = slides[0].getBoundingClientRect().width + 20; // 20px margen
+    const slideWidth = slides[0].getBoundingClientRect().width + 20; // margen
     commentsContainer.style.transform = `translateX(-${currentCommentIndex * slideWidth}px)`;
 }
 
@@ -76,7 +79,7 @@ function startCommentCarousel() {
     }, 4000);
 }
 
-// ----------------- EVENT LISTENERS -----------------
+// --- EVENT LISTENERS ---
 submitComment.addEventListener('click', () => addComment(commentInput.value));
 commentInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
@@ -85,7 +88,7 @@ commentInput.addEventListener('keypress', (e) => {
     }
 });
 
-// ----------------- INICIALIZAR -----------------
+// --- INICIALIZAR ---
 document.addEventListener('DOMContentLoaded', () => {
     loadComments();
     startCommentCarousel();
