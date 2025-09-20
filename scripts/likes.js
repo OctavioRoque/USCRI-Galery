@@ -4,7 +4,7 @@ import { addLike, getLikes } from "./supabase.js";
 const likeBtn = document.getElementById("likeBtn");
 const likeCount = document.getElementById("likeCount");
 
-// Función para obtener IP del usuario
+// Obtener IP del usuario
 async function getUserIp() {
   try {
     const res = await fetch("https://api.ipify.org?format=json");
@@ -16,16 +16,17 @@ async function getUserIp() {
 }
 
 // Actualiza contador y estado del ícono
-async function updateLikeUI() {
+export async function updateLikeUI() {
   const workId = likeBtn.dataset.workId;
   if (!workId) return;
 
+  // Actualizar contador
   const count = await getLikes(workId);
   likeCount.textContent = count;
 
   const userIp = await getUserIp();
 
-  // Consultar si este usuario ya dio like
+  // Verificar si este usuario ya dio like
   const { data, error } = await supabase
     .from("likes")
     .select("*")
@@ -37,14 +38,13 @@ async function updateLikeUI() {
     return;
   }
 
+  // Cambiar ícono según estado
   if (data && data.length > 0) {
-    // Usuario ya dio like → corazón relleno
-    likeBtn.classList.remove("bx bx-heart");
-    likeBtn.classList.add("bx bxs-heart");
+    likeBtn.classList.remove("bx-heart");
+    likeBtn.classList.add("bxs-heart");
   } else {
-    // Usuario no ha dado like → corazón vacío
-    likeBtn.classList.remove("bx bxs-heart");
-    likeBtn.classList.add("bx bx-heart");
+    likeBtn.classList.remove("bxs-heart");
+    likeBtn.classList.add("bx-heart");
   }
 }
 
@@ -55,14 +55,19 @@ async function handleLike() {
 
   const userIp = await getUserIp();
 
+  // Optimismo visual: cambiar corazón antes de esperar respuesta
+  likeBtn.classList.toggle("bx-heart");
+  likeBtn.classList.toggle("bxs-heart");
+
   // Registrar el like en Supabase
   await addLike(workId, userIp);
 
-  // Actualizar contador e ícono
-  await updateLikeUI();
+  // Actualizar contador real
+  const count = await getLikes(workId);
+  likeCount.textContent = count;
 }
 
-// Eventos
+// Evento click
 likeBtn.addEventListener("click", handleLike);
 
 // Hacer accesible updateLikeUI para modal.js
