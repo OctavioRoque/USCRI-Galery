@@ -1,4 +1,3 @@
-// scripts/likes.js
 import { addLike, getLikes } from "./supabase.js";
 
 const likeBtn = document.getElementById("likeBtn");
@@ -30,7 +29,7 @@ export async function updateLikeUI() {
   const { data, error } = await supabase
     .from("likes")
     .select("*")
-    .eq("obra_id", workId)
+    .eq("work_id", workId)
     .eq("user_ip", userIp);
 
   if (error) {
