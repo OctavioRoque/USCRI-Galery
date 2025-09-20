@@ -68,8 +68,8 @@ function openModal(index) {
         const likeBtn = document.getElementById("likeBtn");
         if (likeBtn) {
             // Resetear ícono a vacío para evitar ver el estado anterior
-            likeBtn.classList.remove("bx bxs-heart");
-            likeBtn.classList.add("bx bx-heart");
+            likeBtn.classList.remove("bxs-heart");
+            likeBtn.classList.add("bx-heart");
 
             // Guardar id de la obra
             likeBtn.dataset.workId = obra.id;
