@@ -40,11 +40,11 @@ export async function updateLikeUI() {
 
   // Cambiar ícono según estado
   if (data && data.length > 0) {
-    likeBtn.classList.remove("bx-heart");
-    likeBtn.classList.add("bxs-heart");
+    likeBtn.classList.remove("bx bx-heart");
+    likeBtn.classList.add("bx bxs-heart");
   } else {
-    likeBtn.classList.remove("bxs-heart");
-    likeBtn.classList.add("bx-heart");
+    likeBtn.classList.remove("bx bxs-heart");
+    likeBtn.classList.add("bx bx-heart");
   }
 }
 
@@ -56,8 +56,8 @@ async function handleLike() {
   const userIp = await getUserIp();
 
   // Optimismo visual: cambiar corazón antes de esperar respuesta
-  likeBtn.classList.toggle("bx-heart");
-  likeBtn.classList.toggle("bxs-heart");
+  likeBtn.classList.toggle("bx bx-heart");
+  likeBtn.classList.toggle("bx bxs-heart");
 
   // Registrar el like en Supabase
   await addLike(workId, userIp);
