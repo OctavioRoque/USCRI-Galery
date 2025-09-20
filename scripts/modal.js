@@ -45,15 +45,6 @@ function openModal(index) {
     const modal = document.getElementById('imageModal');
     const obras = window.obrasData || [];
     const obra = obras[index];
-    // Guardar el id de la obra en el botón de like
-    const likeBtn = document.getElementById("likeBtn");
-    if (likeBtn) {
-        likeBtn.dataset.workId = obra.id; // <-- aquí pasas el ID real de la obra
-    }
-    if (typeof window.updateLikeUI === "function") {
-        window.updateLikeUI();
-    }
-
     if (!obra) return;
 
     currentModalIndex = index;
@@ -72,6 +63,22 @@ function openModal(index) {
         document.getElementById('modalFecha').textContent = obra.fecha_elaboracion || '';
         document.getElementById('modalEstilo').textContent = obra.estilo || '';
         document.getElementById('modalSignificado').textContent = obra.significado || '';
+
+        // 🔹 Configuración del botón de like
+        const likeBtn = document.getElementById("likeBtn");
+        if (likeBtn) {
+            // Resetear ícono a vacío para evitar ver el estado anterior
+            likeBtn.classList.remove("bxs-heart");
+            likeBtn.classList.add("bx-heart");
+
+            // Guardar id de la obra
+            likeBtn.dataset.workId = obra.id;
+
+            // Actualizar contador y estado real desde Supabase
+            if (typeof window.updateLikeUI === "function") {
+                window.updateLikeUI();
+            }
+        }
 
         if (modalImageContainer) modalImageContainer.classList.remove('loading');
         modal.classList.add('show');
@@ -92,6 +99,7 @@ function openModal(index) {
         modalURLHandler.updateURL(index);
     };
 }
+
 
 function closeModal() {
     const modal = document.getElementById('imageModal');

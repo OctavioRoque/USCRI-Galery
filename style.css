@@ -868,3 +868,11 @@ body {
         flex: 0 0 100%;
     }
 }
+
+.call-to-act {
+  margin: 0.5rem 0;    
+  font-size: clamp(1.2rem, 4vw, 2rem);  
+  text-align: center;    
+  line-height: 1.2;    
+  color: #005f94;   
+}
