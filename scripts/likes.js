@@ -39,7 +39,7 @@ async function updateLikeUI() {
 
   if (data && data.length > 0) {
     // Usuario ya dio like → corazón relleno
-    likeBtn.classList.remove("bx x-heart");
+    likeBtn.classList.remove("bx bx-heart");
     likeBtn.classList.add("bx bxs-heart");
   } else {
     // Usuario no ha dado like → corazón vacío
