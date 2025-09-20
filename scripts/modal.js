@@ -45,6 +45,15 @@ function openModal(index) {
     const modal = document.getElementById('imageModal');
     const obras = window.obrasData || [];
     const obra = obras[index];
+    // Guardar el id de la obra en el botón de like
+    const likeBtn = document.getElementById("likeBtn");
+    if (likeBtn) {
+        likeBtn.dataset.workId = obra.id; // <-- aquí pasas el ID real de la obra
+    }
+    if (typeof window.updateLikeUI === "function") {
+        window.updateLikeUI();
+    }
+
     if (!obra) return;
 
     currentModalIndex = index;

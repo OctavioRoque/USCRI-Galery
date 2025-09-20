@@ -34,3 +34,6 @@ likeBtn.addEventListener("click", handleLike);
 
 // Inicializar
 document.addEventListener("DOMContentLoaded", updateLikeUI);
+
+// al final de likes.js
+window.updateLikeUI = updateLikeUI;
